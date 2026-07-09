@@ -249,3 +249,5 @@ terraform.tfstate
 terraform.tfstate.backup  
 terraform.tfvars
 .terraform.lock.hcl
+*.tfvars
+*.tfvars.json
