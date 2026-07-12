@@ -11,8 +11,8 @@
         - given_name
         - family_name
         - sandbox_acc_id 
-        pegar id da conta usando o comando:
-            aws cli aws organizations list-accounts
+        pegar id da conta usando o aws cli v2 com:
+            aws organizations list-accounts
 
 ## Como rodar o projeto
 
