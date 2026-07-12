@@ -12,9 +12,18 @@
         - family_name
         - sandbox_acc_id 
         pegar usando o comando 
+
         ```
          id aws cli aws organizations list-accounts
         ```
+
+## Como rodar o projeto
+
+```
+$ tofu init
+$ tofu plan
+$ tofu apply
+```
 
 ## Diagrama visual do fluxo
 
