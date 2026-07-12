@@ -1,28 +1,87 @@
-# Lab ativando SSO com Identity Center
+# AWS IAM Identity Center Lab
+
+Este projeto utiliza **OpenTofu/Terraform** para automatizar a criação de um usuário no **AWS IAM Identity Center (AWS SSO)**, criar um **Permission Set** com privilégios administrativos e conceder acesso a uma conta Sandbox.
 
 ---
 
-## Steps
-    1. Primeiro ativar o identity center no painel da aws de forma manual
-    2. configurar as variaveis no arquivo terraform.tfvars
-        - sso_user_name
-        - sso_user_email
-        - display_name = "Fabio Almeida"
-        - given_name
-        - family_name
-        - sandbox_acc_id 
-        pegar id da conta usando o aws cli v2 com:
-            aws organizations list-accounts
+## Pré-requisitos
 
-## Como rodar o projeto
+- AWS CLI v2
+- OpenTofu
+- Credenciais da conta de gerenciamento (Management Account)
+- AWS Organizations habilitado
+- AWS IAM Identity Center habilitado
 
+Primeiro, ative manualmente o AWS IAM Identity Center no console da AWS.
+
+---
+
+## Configuração
+
+Edite o arquivo `terraform.tfvars`:
+
+```hcl
+sso_user_name = ""
+sso_user_email = ""
+
+display_name = ""
+given_name   = ""
+family_name  = ""
+
+sandbox_acc_id = ""
 ```
-$ tofu init
-$ tofu plan
-$ tofu apply
+
+### Variáveis
+
+| Variável | Descrição |
+|----------|-----------|
+| `sso_user_name` | Nome de login do usuário |
+| `sso_user_email` | E-mail do usuário |
+| `display_name` | Nome exibido |
+| `given_name` | Primeiro nome |
+| `family_name` | Sobrenome |
+| `sandbox_acc_id` | ID da conta Sandbox |
+
+Obtenha o ID da conta Sandbox utilizando:
+
+```bash
+aws organizations list-accounts
 ```
 
-## Diagrama visual do fluxo
+---
+
+## Como executar
+
+```bash
+tofu init
+tofu plan
+tofu apply
+```
+
+---
+
+## Recursos criados
+
+- Identity Center User
+- Permission Set
+- AdministratorAccess Policy Attachment
+- Account Assignment para a conta Sandbox
+
+---
+
+## Fluxo
+
+1. Descobre automaticamente a instância do Identity Center.
+2. Cria um usuário.
+3. Cria um Permission Set.
+4. Anexa a política AdministratorAccess.
+5. Associa o usuário à conta Sandbox.
+6. O usuário recebe um e-mail de convite.
+7. Após ativar a conta, pode utilizar `aws sso login`.
+
+---
+
+## Diagrama do fluxo
 
 ```
 +---------------------------------------------------------------------------------+
@@ -80,3 +139,11 @@ $ tofu apply
 | 3. No terminal, o comando `aws sso login` te autentica por 4 horas seguidas.    |
 +---------------------------------------------------------------------------------+
 ```
+
+---
+
+## Resultado esperado
+
+1. O usuário recebe um e-mail para ativar o acesso.
+2. A conta Sandbox aparece no portal do AWS IAM Identity Center.
+3. O comando `aws sso login` autentica o usuário utilizando o Permission Set criado.
