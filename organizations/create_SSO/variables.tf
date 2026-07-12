@@ -28,3 +28,8 @@ variable "family_name" {
   type        = string
   description = "Family name"
 }
+
+variable "sandbox_acc_id" {
+  type = string
+  description = "Acc sandbox string"
+}

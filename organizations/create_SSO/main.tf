@@ -40,5 +40,5 @@ resource "aws_ssoadmin_account_assignment" "sandbox_assignment" {
   principal_id   = aws_identitystore_user.dev_user.user_id
 
   target_type = "AWS_ACCOUNT"
-  target_id   = aws_organizations_account.sandbox.id # Assume que o recurso da conta está neste mesmo diretório
+  target_id   = var.sandbox_acc_id
 }
